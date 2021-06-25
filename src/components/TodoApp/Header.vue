@@ -14,7 +14,7 @@ import { defineComponent, ref } from 'vue'
 import { create as createTodo } from '@/models/Todos';
 
 export default defineComponent({
-    setup(props) {
+    setup() {
         const todo = ref('');
         const submit = function () {
             createTodo(todo.value);

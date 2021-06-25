@@ -17,3 +17,9 @@ export const remove = function (todo: Todo): void {
         todos.splice(index, 1);
     }
 }
+
+export const clearCompleted = function (): void {
+    const activeTodos = todos.filter(todo => ! todo.completed);
+    todos.length = 0;
+    todos.push(...activeTodos);
+};

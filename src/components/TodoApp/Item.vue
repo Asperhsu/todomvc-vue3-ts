@@ -21,12 +21,12 @@ export default defineComponent({
         todo: Object as PropType<Todo>,
     },
 
-    setup(props, { emit }) {
+    setup(props) {
         const todo = props.todo as Todo;
         const editing = ref(false);
         const completed = computed({
             get: () => todo.completed,
-            set: val => todo.toggleComplete(),
+            set: () => todo.toggleComplete(),
         });
 
         const enableEdit = () => {

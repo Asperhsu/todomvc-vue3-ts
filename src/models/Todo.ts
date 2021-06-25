@@ -9,11 +9,11 @@ export default class Todo {
         this.completed = false;
     }
 
-    edit(title: string) {
+    edit(title: string): void {
         this.title = title;
     }
 
-    toggleComplete(state?: boolean) {
+    toggleComplete(state?: boolean): void {
         if (typeof state === "undefined") {
             this.completed = !this.completed;
         } else {

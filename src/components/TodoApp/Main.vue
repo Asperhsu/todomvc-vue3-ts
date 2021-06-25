@@ -1,25 +1,44 @@
 <template>
     <!-- This section should be hidden by default and shown when there are todos -->
     <section class="main">
-        <input id="toggle-all" class="toggle-all" type="checkbox">
+        <input id="toggle-all" class="toggle-all" type="checkbox" @change="toggleAll($event)">
         <label for="toggle-all">Mark all as complete</label>
         <ul class="todo-list">
-            <Item v-for="todo in todos" :key="todo.id" :todo="todo" />
+            <Item v-for="todo in filteredTodos" :key="todo.id" :todo="todo" />
         </ul>
     </section>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 import Item from './Item.vue';
+import Todo from '@/models/Todo';
 import { todos } from '@/models/Todos';
+import bus from '@/bus';
 
 export default defineComponent({
     components: { Item },
 
-    setup(props) {
+    setup() {
+        const toggleAll = (e: Event) => {
+            const isChecked = (e.target as HTMLInputElement).checked;
+            todos.map(todo => todo.toggleComplete(isChecked));
+        };
+
+        const filterType = ref('all');
+        bus.on('filter', (type) => filterType.value = type as string);
+        const filteredTodos = computed((): Array<Todo> => {
+            switch (filterType.value) {
+                case 'all': return todos;
+                case 'active': return todos.filter(todo => ! todo.completed);
+                case 'completed': return todos.filter(todo => todo.completed);
+            }
+            return [];
+        });
+
         return {
-            todos,
+            filteredTodos,
+            toggleAll,
         };
     },
 })
