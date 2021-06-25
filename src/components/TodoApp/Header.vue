@@ -11,14 +11,13 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
+import { create as createTodo } from '@/models/Todos';
 
 export default defineComponent({
-    emits: ['submit'],
-
-    setup(props, {emit}) {
+    setup(props) {
         const todo = ref('');
         const submit = function () {
-            emit('submit', todo.value);
+            createTodo(todo.value);
             todo.value = '';
         }
 

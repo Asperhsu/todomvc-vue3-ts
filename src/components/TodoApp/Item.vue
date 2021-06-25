@@ -3,7 +3,7 @@
     <!-- List items should get the class `editing` when editing and `completed` when marked as completed -->
     <li :class="{completed: todo.completed, editing}">
         <div class="view">
-            <input class="toggle" type="checkbox" :checked="todo.completed" @click="toggleCompleted($event)">
+            <input class="toggle" type="checkbox" v-model="completed">
             <label @dblclick="enableEdit">{{ todo.title }}</label>
             <button class="destroy" @click="destroy"></button>
         </div>
@@ -12,46 +12,47 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType, ref } from 'vue'
-import { Todo } from '../../TodoApp';
+import { computed, defineComponent, PropType, ref } from 'vue'
+import Todo from '@/models/Todo';
+import { remove as removeTodo } from '@/models/Todos';
 
 export default defineComponent({
     props: {
         todo: Object as PropType<Todo>,
     },
 
-    emits: ['edit', 'toggleComplete', 'destroy'],
-
     setup(props, { emit }) {
+        const todo = props.todo as Todo;
         const editing = ref(false);
+        const completed = computed({
+            get: () => todo.completed,
+            set: val => todo.toggleComplete(),
+        });
 
         const enableEdit = () => {
-            editing.value = true;
+            if (! todo.completed) {
+                editing.value = true;
+            }
         };
         const finishEdit = (e: Event) => {
             const title = (e.target as HTMLInputElement).value;
-            emit('edit', title);
+            todo.edit(title);
+            editing.value = false;
         };
         const abortEdit = () => {
             editing.value = false;
         };
 
-        const toggleCompleted = (e: Event) => {
-            const completed = (props.todo as Todo).completed
-            emit('toggleComplete', !completed);
-            e.preventDefault();
-        };
-
         const destroy = () => {
-            emit('destroy');
+            removeTodo(todo);
         };
 
         return {
             editing,
+            completed,
             enableEdit,
             finishEdit,
             abortEdit,
-            toggleCompleted,
             destroy,
         };
     },

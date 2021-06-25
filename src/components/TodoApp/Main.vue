@@ -10,22 +10,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
+import { defineComponent } from 'vue'
 import Item from './Item.vue';
-import { Todo } from '../../TodoApp';
+import { todos } from '@/models/Todos';
 
 export default defineComponent({
     components: { Item },
 
-    props: {
-        todos: {
-            type: Array as PropType<Array<Todo>>,
-        },
-    },
-
     setup(props) {
         return {
-            // todos: toRef(props, 'todos'),
+            todos,
         };
     },
 })
