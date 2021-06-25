@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue'
-import Item from './Item.vue';
+import Item from '@/components/Item.vue';
 import Todo from '@/models/Todo';
 import { todos } from '@/models/Todos';
 import bus from '@/bus';
