@@ -26,7 +26,9 @@ export default defineComponent({
         const editing = ref(false);
         const completed = computed({
             get: () => todo.completed,
-            set: () => todo.toggleComplete(),
+            set: (state) => {
+                todo.toggleComplete(state);
+            }
         });
 
         const enableEdit = () => {

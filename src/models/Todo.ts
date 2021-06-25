@@ -20,4 +20,22 @@ export default class Todo {
             this.completed = state;
         }
     }
+
+    serialize(): string {
+        return JSON.stringify({
+            id: this.id,
+            title: this.title,
+            completed: this.completed,
+        });
+    }
+
+    static deserialize(json: string): Todo {
+        const obj = JSON.parse(json) || {};
+
+        const todo = new this(obj.title);
+        todo.id = obj.id;
+        todo.completed = obj.completed;
+
+        return todo;
+    }
 }

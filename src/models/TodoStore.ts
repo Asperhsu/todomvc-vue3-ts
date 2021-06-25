@@ -1,4 +1,4 @@
-import { reactive } from 'vue';
+import { reactive, watch } from 'vue';
 import Todo from '@/models/Todo';
 
 class TodoStore {
@@ -6,6 +6,16 @@ class TodoStore {
 
     constructor() {
         this.todos = reactive([]);
+
+        const todoJsons = JSON.parse(localStorage.getItem('todos') || '[]') as Array<string>;
+        if (todoJsons.length) {
+            todoJsons.map(todoJson => this.todos.push(Todo.deserialize(todoJson)));
+        }
+
+        watch(this.todos, (todos) => {
+            const todoJsons = todos.map(todo => todo.serialize());
+            localStorage.setItem('todos', JSON.stringify(todoJsons));
+        });
     }
 
     all(): Array<Todo> {
