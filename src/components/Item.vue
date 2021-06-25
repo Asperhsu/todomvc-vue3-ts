@@ -14,7 +14,7 @@
 <script lang="ts">
 import { computed, defineComponent, PropType, ref } from 'vue'
 import Todo from '@/models/Todo';
-import { remove as removeTodo } from '@/models/Todos';
+import TodoStore from '@/models/TodoStore';
 
 export default defineComponent({
     props: {
@@ -44,7 +44,7 @@ export default defineComponent({
         };
 
         const destroy = () => {
-            removeTodo(todo);
+            TodoStore.remove(todo);
         };
 
         return {

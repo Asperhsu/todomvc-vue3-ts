@@ -11,13 +11,13 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
-import { create as createTodo } from '@/models/Todos';
+import TodoStore from '@/models/TodoStore';
 
 export default defineComponent({
     setup() {
         const todo = ref('');
         const submit = function () {
-            createTodo(todo.value);
+            TodoStore.create(todo.value);
             todo.value = '';
         }
 

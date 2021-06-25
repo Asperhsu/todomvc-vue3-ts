@@ -13,13 +13,14 @@
 import { computed, defineComponent, ref } from 'vue'
 import Item from '@/components/Item.vue';
 import Todo from '@/models/Todo';
-import { todos } from '@/models/Todos';
+import TodoStore from '@/models/TodoStore';
 import bus from '@/bus';
 
 export default defineComponent({
     components: { Item },
 
     setup() {
+        const todos = TodoStore.all();
         const toggleAll = (e: Event) => {
             const isChecked = (e.target as HTMLInputElement).checked;
             todos.map(todo => todo.toggleComplete(isChecked));

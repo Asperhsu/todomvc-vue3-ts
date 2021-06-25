@@ -16,13 +16,13 @@
 
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue'
-import { todos, clearCompleted } from '@/models/Todos';
+import TodoStore from '@/models/TodoStore';
 import bus from '@/bus';
 
 export default defineComponent({
     setup() {
         const activeItems = computed(() => {
-            return todos.filter(todo => ! todo.completed);
+            return TodoStore.all().filter(todo => ! todo.completed);
         });
 
         const filterTypes = {
@@ -41,7 +41,7 @@ export default defineComponent({
             filterTypes,
             filterType,
             changeFilter,
-            clearCompleted,
+            clearCompleted: () => TodoStore.clearCompleted(),
         };
     },
 })
